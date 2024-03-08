@@ -1,7 +1,10 @@
 const express = require('express');
-const app = express();
-const PORT = 3000;
+const app=express();
 
-const router=express.Router();
+const router = express.Router();
 
-module.exports=router;
+const userRouter= require('./user')
+
+app.use('/user',userRouter)
+
+module.exports = router;
