@@ -1,62 +1,61 @@
-const express = require('express')
-const zod = require('zod')
-const { userModel } = require('../db')
-const jwt = require('jsonwebtoken')
-const { JWT_SECRET } = require('../config')
+const express = require("express");
+const zod = require("zod");
+const { userModel } = require("../db");
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = require("../config");
 
-const router = express.Router()
+const router = express.Router();
 
-router.get('/',(req,res)=>{
-  res.send('working for /api/v1/user')
-})
+router.get("/", (req, res) => {
+  res.send("working for /api/v1/user");
+});
 
 const signupSchema = zod.object({
   username: zod.string().email(),
-  password: zod.string().min(6),
+  password: zod.string(),
   firstName: zod.string(),
-  lastname: zod.string()
-})
-router.post('/signup', async (req, res) => {
-  const body = req.body
+  lastName: zod.string(),
+});
+router.post("/signup", async (req, res) => {
+  const body = req.body;
   try {
-    console.log('inside user try');
-    const { success } = signupSchema.safeParse(req.body)
+    console.log("inside user try");
+    const { success } = signupSchema.safeParse(body);
     if (!success) {
       return res.json({
-        message: 'Incorrect inputs'
-      })
+        message: "Incorrect inputs",
+      });
     }
 
     const existingUser = await userModel.findOne({
-      username: body.username
-    })
+      username: body.username,
+    });
 
-    if (existingUser._id) {
+    if (existingUser) {
       return res.json({
-        msg: 'email already exists'
-      })
+        msg: "user already exists",
+      });
     }
 
-    let newUser = await userModel.create(body)
+    let newUser = await userModel.create(body);
     const token = jwt.sign(
       {
-        userId: newUser._id
+        userId: newUser._id,
       },
       JWT_SECRET
-    )
+    );
     res.json({
-      msg: 'User created successfully',
-      token: token
-    })
-  } 
-  catch (error) {
-    console.error('Error creating user:', error)
-    return res.status(500).json({ message: 'Internal server error' })
+      msg: "User created successfully",
+      token: token,
+    });
+  } catch (error) {
+    console.error("Error creating user:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
-})
+});
 
-router.get('/signin', (req, res) => {
-  res.send('opened sigin')
-})
+router.get("/signin", (req, res) => {
+  res.send("opened sigin");
+});
 
-module.exports = router
+module.exports = router;
