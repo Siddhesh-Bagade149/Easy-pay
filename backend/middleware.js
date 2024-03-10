@@ -3,9 +3,10 @@ const jwt = require("jsonwebtoken");
 
 const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
-//   console.log(authHeader);
+  console.log(typeof authHeader);
+  console.log(authHeader);
+  console.log(authHeader.startsWith("Bearer "));
   if (!authHeader || !authHeader.startsWith("Bearer")) {
-    console.log(authHeader.startsWith("B"));
     return res.status(403).json({ msg: "problem with header" });
   }
   const token = authHeader.split(" ")[1];

@@ -92,7 +92,8 @@ const updateBody = zod.object({
   firstName: zod.string().optional(),
   lastName: zod.string().optional(),
 });
-
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWVkZmQyZmJhNmIyYWFhZjcwNjI0OGUiLCJpYXQiOjE3MTAwOTU2NjN9.mteLjwZ9m-AO2WMgJREJI2w_Bu2dfcrD0hn-ThYj_1g
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWVkZmQyZmJhNmIyYWFhZjcwNjI0OGUiLCJpYXQiOjE3MTAwOTU2OTJ9.jzJ9rasrBWFlRTCWaO2sf5k17kC7w0Fff-BjHWB--8U
 router.put("/", authMiddleware, async (req, res) => {
   const { success } = updateBody.safeParse(req.body);
   if (!success) {
@@ -100,10 +101,38 @@ router.put("/", authMiddleware, async (req, res) => {
       msg: "error while updating",
     });
   }
+  console.log("inside put");
+
   // User.updateOne({ _id: userId }, { email: 'new_email@example.com' })
   await userModel.updateOne({ _id: req.userId }, req.body);
   res.json({
     message: "Updated successfully",
   });
 });
+
+router.get("/bulk", async (req, res) => {
+  const filter = req.query.filter || "";
+
+  const users = await userModel.find({
+      $or: [{
+          firstName: {
+              "$regex": filter
+          }
+      }, {
+          lastName: {
+              "$regex": filter
+          }
+      }]
+  })
+
+  res.json({
+      user: users.map(user => ({
+          username: user.username,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          _id: user._id
+      }))
+  })
+})
+
 module.exports = router;
