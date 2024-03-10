@@ -16,10 +16,11 @@ const signupSchema = zod.object({
   firstName: zod.string(),
   lastName: zod.string(),
 });
+
 router.post("/signup", async (req, res) => {
   const body = req.body;
   try {
-    console.log("inside user try");
+    
     const { success } = signupSchema.safeParse(body);
     if (!success) {
       return res.json({
@@ -54,8 +55,40 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.get("/signin", (req, res) => {
-  res.send("opened sigin");
+const signinSchema = zod.object({
+  username: zod.string().email(),
+  password: zod.string(),
+});
+
+router.post("/signin", async (req, res) => {
+  const body = req.body;
+  const { success } = signinSchema.safeParse(body);
+  if (!success) {
+    return res.status(401).json({
+      message: "Error while logging in invalid credentials",
+    });
+  }
+  const existingUser = await userModel.findOne({
+    username: body.username,
+    password: body.password,
+  });
+
+  if (existingUser) {
+    const token = jwt.sign(
+      {
+        userId: existingUser._id,
+      },
+      JWT_SECRET
+    );
+    res.json({
+      token: token,
+    });
+    return;
+  }
+
+  res.status(411).json({
+    msg: "error while logging in",
+  });
 });
 
 module.exports = router;

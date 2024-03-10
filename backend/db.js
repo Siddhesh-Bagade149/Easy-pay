@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const {MONGO_URL}=require('./config')
 mongoose.Promise = global.Promise;
 
 // Connect MongoDB at default port 27017.
@@ -7,12 +7,14 @@ mongoose.Promise = global.Promise;
 // catch(error => console.log('error in connecting mongoose '+error));
 
 try {
+  // console.log(MONGO_URL);
   mongoose.connect(
-    "mongodb+srv://siddhesh:CNwdQmdIvwcOGoGb@cluster0.rbwuu52.mongodb.net/PaytmDB"
+    //hidden mongo url
+    MONGO_URL
   );
-  console.log("connected to mongourl");
+  // console.log("connected to mongourl");
 } catch (error) {
-  hconsole.log("error in connecting mongoose " + error);
+  console.log("error in connecting mongoose " + error);
 }
 
 const userSchema = new mongoose.Schema({
