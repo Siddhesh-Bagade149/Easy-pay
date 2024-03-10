@@ -3,14 +3,11 @@ const zod = require("zod");
 const { userModel } = require("../db");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config");
+const { authMiddleWare, authMiddleware } = require("../middleware");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.send("working for /api/v1/user");
-});
-
-const signupSchema = zod.object({
+const signupBody = zod.object({
   username: zod.string().email(),
   password: zod.string(),
   firstName: zod.string(),
@@ -20,8 +17,7 @@ const signupSchema = zod.object({
 router.post("/signup", async (req, res) => {
   const body = req.body;
   try {
-    
-    const { success } = signupSchema.safeParse(body);
+    const { success } = signupBody.safeParse(body);
     if (!success) {
       return res.json({
         message: "Incorrect inputs",
@@ -55,14 +51,14 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-const signinSchema = zod.object({
+const signinBody = zod.object({
   username: zod.string().email(),
   password: zod.string(),
 });
-
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWVjMDFjMGI3NTM2OWM3M2FjNWI3NWQiLCJpYXQiOjE3MTAwNzIxODh9.XICnecww_tQotNE0UnSerAbbG-HwV_vA9KQ57ZNoxAI
 router.post("/signin", async (req, res) => {
   const body = req.body;
-  const { success } = signinSchema.safeParse(body);
+  const { success } = signinBody.safeParse(body);
   if (!success) {
     return res.status(401).json({
       message: "Error while logging in invalid credentials",
@@ -91,4 +87,23 @@ router.post("/signin", async (req, res) => {
   });
 });
 
+const updateBody = zod.object({
+  password: zod.string().optional(),
+  firstName: zod.string().optional(),
+  lastName: zod.string().optional(),
+});
+
+router.put("/", authMiddleware, async (req, res) => {
+  const { success } = updateBody.safeParse(req.body);
+  if (!success) {
+    res.status(411).json({
+      msg: "error while updating",
+    });
+  }
+  // User.updateOne({ _id: userId }, { email: 'new_email@example.com' })
+  await userModel.updateOne({ _id: req.userId }, req.body);
+  res.json({
+    message: "Updated successfully",
+  });
+});
 module.exports = router;

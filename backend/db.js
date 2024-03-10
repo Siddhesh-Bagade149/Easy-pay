@@ -12,7 +12,7 @@ try {
     //hidden mongo url
     MONGO_URL
   );
-  // console.log("connected to mongourl");
+  console.log("connected to mongourl");
 } catch (error) {
   console.log("error in connecting mongoose " + error);
 }
