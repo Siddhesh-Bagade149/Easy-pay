@@ -3,12 +3,9 @@ const { MONGO_URL } = require("./config");
 const { Schema } = require("zod");
 mongoose.Promise = global.Promise;
 
-// Connect MongoDB at default port 27017.
-// mongoose.connect('mongodb+srv://siddhesh:CNwdQmdIvwcOGoGb@cluster0.rbwuu52.mongodb.net/PaytmDB').
-// catch(error => console.log('error in connecting mongoose '+error));
+
 
 try {
-  // console.log(MONGO_URL);
   mongoose.connect(
     //hidden mongo url
     MONGO_URL
