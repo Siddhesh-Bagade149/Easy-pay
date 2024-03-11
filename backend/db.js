@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const {MONGO_URL}=require('./config')
+const { MONGO_URL } = require("./config");
+const { Schema } = require("zod");
 mongoose.Promise = global.Promise;
 
 // Connect MongoDB at default port 27017.
@@ -48,6 +49,20 @@ const userSchema = new mongoose.Schema({
 
 const userModel = mongoose.model("User", userSchema);
 
+const accountSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: userModel,
+    required: true,
+  },
+  balance: {
+    type: Number,
+    required: true,
+  },
+});
+
+const accountModel = mongoose.model("accoutModel", accountSchema);
 module.exports = {
   userModel,
+  accountModel,
 };
