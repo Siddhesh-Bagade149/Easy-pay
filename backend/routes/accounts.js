@@ -5,8 +5,6 @@ const { default: mongoose } = require("mongoose");
 
 const router = express.Router();
 
-//toke= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWVmMTAxYmMxMmNkNzVkZGE1NDFlOGMiLCJpYXQiOjE3MTAxNjY1MDh9.hyy1vhQJs9S9dD-zhfy61cu6kWoKWRj3MHAOFww9pJU"
-
 router.get("/balance", authMiddleware, async (req, res) => {
   const account = await accountModel.findOne({
     userId: req.userId,
@@ -21,6 +19,9 @@ router.get("/balance", authMiddleware, async (req, res) => {
 //consistency hold true bcoz the total amount remains const
 //isolation holds true as each transaction will work separately
 //dDurability guarantees that once the transaction completes and changes are written to the database, they are persisted
+
+// 65f06a07536101eea8d5303a demo11@gamil.com
+
 router.post("/transfer", authMiddleware, async (req, res) => {
   const session = await mongoose.startSession();
 
@@ -46,9 +47,6 @@ router.post("/transfer", authMiddleware, async (req, res) => {
       msg: "invalid account",
     });
   }
-
-// 65ef3d8c474c4be5ee6fe7be sid
-// 65ef101bc12cd75dda541e8c singh
 
   //starting transfer
   await accountModel
