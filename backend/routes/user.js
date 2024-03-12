@@ -34,8 +34,21 @@ router.post("/signup", async (req, res) => {
       });
     }
     // creatnig new user
-    let newUser = await userModel.create(body);
+    // let newUser = await userModel.create(body);
+    let newUser = await userModel.create({
+      username: body.username,
+      firstName: body.firstName,
+      lastName: body.lastName,
+      password_hash:"temp"
+    });
     const userId = newUser._id;
+
+    let hashedPassword = await newUser.createHash(body.password);
+    // console.log(hashedPassword);
+    newUser.password_hash = hashedPassword;
+
+    // Save newUser object to database
+    await newUser.save();
 
     // creating new account
     await accountModel.create({
@@ -63,6 +76,7 @@ const signinBody = zod.object({
   username: zod.string().email(),
   password: zod.string(),
 });
+
 // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWVjMDFjMGI3NTM2OWM3M2FjNWI3NWQiLCJpYXQiOjE3MTAwNzIxODh9.XICnecww_tQotNE0UnSerAbbG-HwV_vA9KQ57ZNoxAI
 router.post("/signin", async (req, res) => {
   const body = req.body;
@@ -72,27 +86,59 @@ router.post("/signin", async (req, res) => {
       message: "Error while logging in invalid credentials",
     });
   }
-  const existingUser = await userModel.findOne({
-    username: body.username,
-    password: body.password,
-  });
 
-  if (existingUser) {
-    const token = jwt.sign(
-      {
-        userId: existingUser._id,
-      },
-      JWT_SECRET
-    );
-    res.json({
-      token: token,
-    });
-    return;
+  // const existingUser = await userModel.findOne({
+  //   username: body.username,
+  //   password: body.password,
+  // });
+
+  //finding only by email
+  let existingUser = await User.findOne({ username: body.username });
+
+  if (!existingUser) {
+    return res.status(400).json({ message: "email not found." });
+  } else {
+    if (await existingUser.validatePassword(body.password)) {
+      // Password is correct, generate JWT
+      const payload = { userId: existingUser._id }; // User ID for the token
+      const secret = JWT_SECRET; // Secret key from environment variable
+
+      try {
+        const token = jwt.sign(
+          {
+            userId: existingUser._id,
+          },
+          JWT_SECRET
+        );
+        return res
+          .status(200)
+          .json({ message: "User Successfully Logged In", token });
+      } catch (error) {
+        console.error("Error generating JWT:", error);
+        return res.status(500).json({ message: "Internal Server Error" });
+      }
+    } else {
+      return res.status(400).json({ message: "Incorrect Password" });
+    }
   }
 
-  res.status(411).json({
-    msg: "error while logging in",
-  });
+  
+  // if (existingUser) {
+  //   const token = jwt.sign(
+  //     {
+  //       userId: existingUser._id,
+  //     },
+  //     JWT_SECRET
+  //   );
+  //   res.json({
+  //     token: token,
+  //   });
+  //   return;
+  // }
+
+  // res.status(411).json({
+  //   msg: "error while logging in",
+  // });
 });
 
 const updateBody = zod.object({

@@ -17,6 +17,10 @@ router.get("/balance", authMiddleware, async (req, res) => {
   });
 });
 
+//adding .session(session) to ensure atomicity
+//consistency hold true bcoz the total amount remains const
+//isolation holds true as each transaction will work separately
+//dDurability guarantees that once the transaction completes and changes are written to the database, they are persisted
 router.post("/transfer", authMiddleware, async (req, res) => {
   const session = await mongoose.startSession();
 
