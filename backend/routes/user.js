@@ -14,6 +14,7 @@ const signupBody = zod.object({
   lastName: zod.string(),
 });
 
+// ---------------------------------------------SIGN-UP----------------
 router.post("/signup", async (req, res) => {
   const body = req.body;
   try {
@@ -77,7 +78,7 @@ const signinBody = zod.object({
   password: zod.string(),
 });
 
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWVjMDFjMGI3NTM2OWM3M2FjNWI3NWQiLCJpYXQiOjE3MTAwNzIxODh9.XICnecww_tQotNE0UnSerAbbG-HwV_vA9KQ57ZNoxAI
+// -------------------------------------SIGN-IN--------------------
 router.post("/signin", async (req, res) => {
   const body = req.body;
   const { success } = signinBody.safeParse(body);
@@ -87,22 +88,14 @@ router.post("/signin", async (req, res) => {
     });
   }
 
-  // const existingUser = await userModel.findOne({
-  //   username: body.username,
-  //   password: body.password,
-  // });
-
   //finding only by email
-  let existingUser = await User.findOne({ username: body.username });
+  let existingUser = await userModel.findOne({ username: body.username });
 
   if (!existingUser) {
     return res.status(400).json({ message: "email not found." });
   } else {
     if (await existingUser.validatePassword(body.password)) {
       // Password is correct, generate JWT
-      const payload = { userId: existingUser._id }; // User ID for the token
-      const secret = JWT_SECRET; // Secret key from environment variable
-
       try {
         const token = jwt.sign(
           {
@@ -122,23 +115,6 @@ router.post("/signin", async (req, res) => {
     }
   }
 
-  
-  // if (existingUser) {
-  //   const token = jwt.sign(
-  //     {
-  //       userId: existingUser._id,
-  //     },
-  //     JWT_SECRET
-  //   );
-  //   res.json({
-  //     token: token,
-  //   });
-  //   return;
-  // }
-
-  // res.status(411).json({
-  //   msg: "error while logging in",
-  // });
 });
 
 const updateBody = zod.object({
@@ -147,6 +123,7 @@ const updateBody = zod.object({
   lastName: zod.string().optional(),
 });
 
+//------------------------UPDATE INFO
 router.put("/", authMiddleware, async (req, res) => {
   const { success } = updateBody.safeParse(req.body);
   if (!success) {
@@ -161,6 +138,8 @@ router.put("/", authMiddleware, async (req, res) => {
     message: "Updated successfully",
   });
 });
+
+// -----------------------------GET ALL
 
 router.get("/bulk", async (req, res) => {
   const filter = req.query.filter || "";

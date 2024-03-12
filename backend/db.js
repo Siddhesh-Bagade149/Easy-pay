@@ -28,11 +28,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // password: {
-  //   type: String,
-  //   required: true,
-  //   minLength: 5,
-  // },
   firstName: {
     type: String,
     required: true,
