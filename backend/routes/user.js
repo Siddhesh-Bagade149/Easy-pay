@@ -14,7 +14,7 @@ const signupBody = zod.object({
   lastName: zod.string(),
 });
 
-// ---------------------------------------------SIGN-UP----------------
+// ---------------------------------------------SIGN-UP--------------------------
 router.post("/signup", async (req, res) => {
   const body = req.body;
   try {

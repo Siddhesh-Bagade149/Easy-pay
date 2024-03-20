@@ -1,7 +1,8 @@
+import { AppBar } from "../components/Appbar"
 
 
 export const Dashboard = () => {
     return <div>
-       hello
+       <AppBar/>
     </div>
 }
