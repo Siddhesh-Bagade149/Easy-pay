@@ -3,3 +3,4 @@
 - add google signin
 - add debouncnig when searching fo rusers
 - add pages for number of users
+- dont see urself when getting uesrs
