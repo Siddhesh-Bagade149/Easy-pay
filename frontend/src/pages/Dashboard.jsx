@@ -1,13 +1,28 @@
+import { useEffect, useState } from "react"
 import { AppBar } from "../components/Appbar"
 import { Balance } from "../components/Balance"
 import { Users } from "../components/Users"
+import axios from "axios"
 
 
 export const Dashboard = () => {
-    const name=localStorage.getItem("firstName")
+    const token = localStorage.getItem("token");
+    const [money, setMoney] = useState(0);
+    useEffect(() => {
+        axios.get('http://localhost:3000/api/v1/account/balance', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }).then((response) => {
+            setMoney(response.data.balance)
+        }).catch((error) => {
+            console.log('error is=' + error);
+        });
+    }, [token])
+    const name = localStorage.getItem("firstName")
     return <div>
-       <AppBar name={name}/>
-       <Balance name={name} value={'100050'} />
-       <Users />
+        <AppBar name={name} />
+        <Balance name={name} value={money.toFixed(2)} />
+        <Users />
     </div>
 }

@@ -9,10 +9,12 @@ import { Dashboard } from "./pages/Dashboard";
 import { SendMoney } from "./pages/SendMoney";
 
 function App() {
+  let token = localStorage.getItem("token");
   return (
     <>
-       <BrowserRouter>
+      <BrowserRouter>
         <Routes>
+          <Route path="/" element={(token)?<Dashboard/>:<Signin/> } />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/dashboard" element={<Dashboard />} />
