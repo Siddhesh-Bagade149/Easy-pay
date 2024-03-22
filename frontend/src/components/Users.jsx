@@ -51,7 +51,10 @@ function User({ user }) {
             {user.firstName[0]}
           </div>
           <div className="flex flex-col justify-center ml-4 font-semibold">
-            {user.firstName} {user.lastName}
+            {user.firstName.charAt(0).toUpperCase() +
+              user.firstName.slice(1).toLowerCase()}{" "}
+            {user.lastName.charAt(0).toUpperCase() +
+              user.lastName.slice(1).toLowerCase()}
           </div>
         </div>
       </div>

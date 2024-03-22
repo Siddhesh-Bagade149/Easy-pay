@@ -37,10 +37,10 @@ router.post("/signup", async (req, res) => {
     // creatnig new user
     // let newUser = await userModel.create(body);
     let newUser = await userModel.create({
-      username: body.username,
-      firstName: body.firstName,
-      lastName: body.lastName,
-      password_hash:"temp"
+      username: body.username.toLowerCase(),
+      firstName: body.firstName.toLowerCase(),
+      lastName: body.lastName.toLowerCase(),
+      password_hash: "temp",
     });
     const userId = newUser._id;
 
@@ -66,6 +66,7 @@ router.post("/signup", async (req, res) => {
     res.json({
       msg: "User created successfully",
       token: token,
+      firstName: newUser.firstName,
     });
   } catch (error) {
     console.error("Error creating user:", error);
@@ -73,12 +74,12 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+// -------------------------------------SIGN-IN--------------------------------------
 const signinBody = zod.object({
   username: zod.string().email(),
   password: zod.string(),
 });
 
-// -------------------------------------SIGN-IN--------------------
 router.post("/signin", async (req, res) => {
   const body = req.body;
   const { success } = signinBody.safeParse(body);
@@ -105,7 +106,11 @@ router.post("/signin", async (req, res) => {
         );
         return res
           .status(200)
-          .json({ message: "User Successfully Logged In", token });
+          .json({
+            message: "User Successfully Logged In",
+            token,
+            firstName: existingUser.firstName,
+          });
       } catch (error) {
         console.error("Error generating JWT:", error);
         return res.status(500).json({ message: "Internal Server Error" });
@@ -114,7 +119,6 @@ router.post("/signin", async (req, res) => {
       return res.status(400).json({ message: "Incorrect Password" });
     }
   }
-
 });
 
 const updateBody = zod.object({
@@ -139,7 +143,7 @@ router.put("/", authMiddleware, async (req, res) => {
   });
 });
 
-// -----------------------------GET ALL
+// -----------------------------GET ALL------------------------
 
 router.get("/bulk", async (req, res) => {
   const filter = req.query.filter || "";

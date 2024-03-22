@@ -4,9 +4,10 @@ import { Users } from "../components/Users"
 
 
 export const Dashboard = () => {
+    const name=localStorage.getItem("firstName")
     return <div>
-       <AppBar/>
-       <Balance value={'100050'} />
+       <AppBar name={name}/>
+       <Balance name={name} value={'100050'} />
        <Users />
     </div>
 }

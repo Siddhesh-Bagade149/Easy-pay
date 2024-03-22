@@ -12,7 +12,7 @@ export const Signup = () => {
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   return (
     <div className="bg-slate-300 h-screen flex justify-center ">
       <div className="flex flex-col justify-center">
@@ -49,16 +49,23 @@ export const Signup = () => {
             label={"Password"}
             placeholder={"*********"}
           />
-          <Button  onClick={async()=>{
-            const response=await axios.post("http://localhost:3000/api/v1/user/signup",{
-              username,
-              password,
-              firstName,
-              lastName
-            })
-            localStorage.setItem("token",response.data.token)
-            navigate('/dashboard')
-          }} label={"Sign Up"} />
+          <Button
+            onClick={async () => {
+              const response = await axios.post(
+                "http://localhost:3000/api/v1/user/signup",
+                {
+                  username,
+                  password,
+                  firstName,
+                  lastName,
+                }
+              );
+              localStorage.setItem("token", response.data.token);
+              localStorage.setItem("firstName", response.data.firstName);
+              navigate("/dashboard");
+            }}
+            label={"Sign Up"}
+          />
           <BottomWarning
             label={"Already have an account?"}
             buttonText={"Sign in"}
