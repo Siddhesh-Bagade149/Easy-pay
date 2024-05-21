@@ -9,7 +9,7 @@ export const Dashboard = () => {
     const token = localStorage.getItem("token");
     const [money, setMoney] = useState(0);
     useEffect(() => {
-        axios.get('http://localhost:3000/api/v1/account/balance', {
+        axios.get('https://easy-pay-backend.onrender.com/api/v1/account/balance', {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

@@ -12,7 +12,7 @@ app.use(cors({
 }))
 app.use(express.json()) // no need for bodyparse.json() anymore
 
-app.use("/api/v1",rootRouter)
+app.use("https://easy-pay-backend.onrender.com/api/v1",rootRouter)
 
 app.listen(port,()=>{
     console.log('server running at 3000 ');
