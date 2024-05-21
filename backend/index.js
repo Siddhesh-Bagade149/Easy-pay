@@ -5,7 +5,7 @@ const cors= require('cors')
 // const bodyParser = require('body-parser'); 
 
 app.use(cors({
-    origin:["https://easy-pay-xi.vercel.app/"],
+    origin:["https://easy-pay-pi.vercel.app/"],
     methods:["POST","GET","PUT"],
     credentials:true
 }))

@@ -7,7 +7,8 @@ mongoose.Promise = global.Promise;
 try {
   mongoose.connect(
     //hidden mongo url
-    MONGO_URL
+    // MONGO_URL
+    'mongodb+srv://siddhesh:CNwdQmdIvwcOGoGb@cluster0.rbwuu52.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
   );
   console.log("connected to mongourl");
 } catch (error) {
