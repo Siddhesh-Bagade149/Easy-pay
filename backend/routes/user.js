@@ -13,7 +13,7 @@ const signupBody = zod.object({
   firstName: zod.string(),
   lastName: zod.string(),
 });
-router.get("/",  (req, res) => {res.send('user route working})
+router.get("/",  (req, res) => {res.send('user route working')})
 // ---------------------------------------------SIGN-UP--------------------------
 router.post("/signup", async (req, res) => {
   const body = req.body;
