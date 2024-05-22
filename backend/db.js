@@ -8,7 +8,7 @@ try {
   mongoose.connect(
     //hidden mongo url
     // MONGO_URL
-    'mongodb+srv://siddhesh:CNwdQmdIvwcOGoGb@cluster0.rbwuu52.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+    'mongodb+srv://siddhesh:CNwdQmdIvwcOGoGb@cluster0.rbwuu52.mongodb.net/newEasyPayDB?retryWrites=true&w=majority&appName=Cluster0'
   );
   console.log("connected to mongourl");
 } catch (error) {
