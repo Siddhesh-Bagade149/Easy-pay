@@ -5,5 +5,8 @@ const router = express.Router();
 
 router.use('/user',userRouter)
 router.use('/account',accountRouter);
+router.get('/', (req, res) => {
+    res.send('GET request to the /')
+  })
 
 module.exports = router;
