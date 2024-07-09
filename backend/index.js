@@ -1,5 +1,8 @@
 const express = require("express");
-const rootRouter = require('./routes/index')
+// const rootRouter = require('./routes/index')
+const userRouter= require('./routes/user')
+const accountRouter= require('./routes/accounts')
+const accountRouter=require('./accounts')
 const app = express();
 const cors = require('cors')
 // const bodyParser = require('body-parser'); 
@@ -14,11 +17,13 @@ app.use(express.json()) // no need for bodyparse.json() anymore
 
 // app.use("http://localhost:3000/", rootRouter)
 // app.use("api/v1/", rootRouter)
-app.use("https://easy-pay-backend.onrender.com", rootRouter)
-
+// app.use("https://easy-pay-backend.onrender.com/", rootRouter)
 app.get('/', (req, res) => {
     res.send('/ route workig')
 })
+
+router.use('https://easy-pay-backend.onrender.com/user',userRouter)
+router.use('https://easy-pay-backend.onrender.com/account',accountRouter);
 
 app.listen(port, () => {
     console.log('server running at 3000 ');
