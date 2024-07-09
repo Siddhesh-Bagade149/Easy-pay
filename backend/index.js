@@ -13,6 +13,7 @@ app.use(cors({
 app.use(express.json()) // no need for bodyparse.json() anymore
 
 // app.use("http://localhost:3000/", rootRouter)
+// app.use("api/v1/", rootRouter)
 app.use("https://easy-pay-backend.onrender.com", rootRouter)
 
 app.get('/', (req, res) => {
