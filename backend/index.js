@@ -22,9 +22,9 @@ app.get('/', (req, res) => {
     res.send('/ route workig')
 })
 
-const router = express.Router();
-router.use('https://easy-pay-backend.onrender.com/user',userRouter)
-router.use('https://easy-pay-backend.onrender.com/account',accountRouter);
+// const router = express.Router();
+app.use('https://easy-pay-backend.onrender.com/user',userRouter)
+app.use('https://easy-pay-backend.onrender.com/account',accountRouter);
 
 app.listen(port, () => {
     console.log('server running at 3000 ');
