@@ -2,7 +2,7 @@ const express = require("express");
 // const rootRouter = require('./routes/index')
 const userRouter= require('./routes/user')
 const accountRouter= require('./routes/accounts')
-const accountRouter=require('./accounts')
+
 const app = express();
 const cors = require('cors')
 // const bodyParser = require('body-parser'); 
