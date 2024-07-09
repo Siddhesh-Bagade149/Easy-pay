@@ -22,6 +22,7 @@ app.get('/', (req, res) => {
     res.send('/ route workig')
 })
 
+const router = express.Router();
 router.use('https://easy-pay-backend.onrender.com/user',userRouter)
 router.use('https://easy-pay-backend.onrender.com/account',accountRouter);
 
