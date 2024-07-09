@@ -37,7 +37,7 @@ export const Signin = () => {
           <Button
             onClick={async () => {
               const response = await axios.post(
-                "https://easy-pay-backend.onrender.com/api/v1/user/signin",
+                "https://easy-pay-backend.onrender.com/user/signin",
                 {
                   username,
                   password,
