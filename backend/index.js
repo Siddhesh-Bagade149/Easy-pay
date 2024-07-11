@@ -8,12 +8,13 @@ const cors = require('cors')
 // const bodyParser = require('body-parser'); 
 const port = process.env.PORT || 3000
 
-app.use(cors({
-    origin: ["*"],
-    methods: ["POST", "GET", "PUT"],
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"]
-}))
+app.use(cors());
+// app.use(cors({
+//     origin: ["*"],
+//     methods: ["POST", "GET", "PUT"],
+//     credentials: true,
+//     allowedHeaders: ["Content-Type", "Authorization"]
+// }))
 
 app.use(express.json()) // no need for bodyparse.json() anymore
 
@@ -27,9 +28,9 @@ app.options('*', cors({
 // app.use("http://localhost:3000/", rootRouter)
 // app.use("api/v1/", rootRouter)
 // app.use("https://easy-pay-backend.onrender.com/", rootRouter)
-app.get('/', (req, res) => {
-    res.send('/ route workig')
-})
+// app.get('/', (req, res) => {
+//     res.send('/ route workig')
+// })
 
 // const router = express.Router();
 // app.use('https://easy-pay-backend.onrender.com/user',userRouter)
