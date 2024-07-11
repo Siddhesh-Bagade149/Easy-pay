@@ -8,21 +8,21 @@ const cors = require('cors')
 // const bodyParser = require('body-parser'); 
 const port = process.env.PORT || 3000
 
-// app.use(cors());        // WORKING WORKING WORKING WWORKING
+app.use(cors());        // WORKING WORKING WORKING WWORKING
 
-app.use(cors({
-    origin: "https://easy-pay-pi.vercel.app/",
-    credentials: true
-}));
+// app.use(cors({
+//     origin: "https://easy-pay-pi.vercel.app/",
+//     credentials: true
+// }));
 
 app.use(express.json()) // no need for bodyparse.json() anymore
 
-app.options('*', cors({
-    origin: ["*"],
-    methods: ["POST", "GET", "PUT"],
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"]
-}));
+// app.options('*', cors({
+//     origin: ["*"],
+//     methods: ["POST", "GET", "PUT"],
+//     credentials: true,
+//     allowedHeaders: ["Content-Type", "Authorization"]
+// }));
 
 // app.use("http://localhost:3000/", rootRouter)
 // app.use("api/v1/", rootRouter)
