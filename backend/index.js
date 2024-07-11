@@ -8,22 +8,21 @@ const cors = require('cors')
 // const bodyParser = require('body-parser'); 
 const port = process.env.PORT || 3000
 
-app.use(cors());
-// app.use(cors({
+// app.use(cors());        // WORKING WORKING WORKING WWORKING
+
+app.use(cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:8080/",
+    credentials: true
+}));
+
+app.use(express.json()) // no need for bodyparse.json() anymore
+
+// app.options('*', cors({
 //     origin: ["*"],
 //     methods: ["POST", "GET", "PUT"],
 //     credentials: true,
 //     allowedHeaders: ["Content-Type", "Authorization"]
-// }))
-
-app.use(express.json()) // no need for bodyparse.json() anymore
-
-app.options('*', cors({
-    origin: ["*"],
-    methods: ["POST", "GET", "PUT"],
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"]
-}));
+// }));
 
 // app.use("http://localhost:3000/", rootRouter)
 // app.use("api/v1/", rootRouter)
