@@ -11,7 +11,7 @@ const port = process.env.PORT || 3000
 // app.use(cors());        // WORKING WORKING WORKING WWORKING
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:8080/",
+    origin: "https://easy-pay-pi.vercel.app/",
     credentials: true
 }));
 
