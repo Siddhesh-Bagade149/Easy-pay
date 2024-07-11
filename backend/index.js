@@ -17,12 +17,12 @@ app.use(cors({
 
 app.use(express.json()) // no need for bodyparse.json() anymore
 
-// app.options('*', cors({
-//     origin: ["*"],
-//     methods: ["POST", "GET", "PUT"],
-//     credentials: true,
-//     allowedHeaders: ["Content-Type", "Authorization"]
-// }));
+app.options('*', cors({
+    origin: ["*"],
+    methods: ["POST", "GET", "PUT"],
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
 // app.use("http://localhost:3000/", rootRouter)
 // app.use("api/v1/", rootRouter)
